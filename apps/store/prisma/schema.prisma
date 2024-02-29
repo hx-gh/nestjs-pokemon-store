@@ -1,0 +1,116 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider      = "prisma-client-js"
+  output        = "../../../node_modules/.prisma/client/store"
+  binaryTargets = ["windows", "native"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// Define the ReferenceCard entity
+model ReferenceCard {
+  // Primary key
+  id Int @id @default(autoincrement())
+
+  // Card properties
+  name       String
+  supertype  String
+  hp         String
+  types      Json
+  imageUrl   String
+  attacks    Json
+  weaknesses Json
+  abilities  Json?
+  pokeIndex  Int
+  rarity     String
+  flavorText String?
+  // Add more fields as needed
+
+  // Relationship: One-to-Many with CardForSale
+  cardsForSale CardForSale[]
+}
+
+// Define the CardForSale entity
+model CardForSale {
+  // Primary key
+  id Int @id @default(autoincrement())
+
+  // Card properties
+  price     Float
+  condition PokemonCardCondition
+  imageUrl  String
+  status    CardStatus
+  // Add more fields as needed
+
+  // Relationship: Many-to-One with ReferenceCard
+  referenceCard   ReferenceCard @relation(fields: [referenceCardId], references: [id])
+  referenceCardId Int
+  Order           Order?        @relation(fields: [orderId], references: [id])
+  orderId         Int?
+  user            User          @relation(fields: [userId], references: [id])
+  userId          Int
+}
+
+// Define the Order entity
+model Order {
+  // Primary key
+  id Int @id @default(autoincrement())
+
+  // Order properties
+  totalPrice   Float
+  status       OrderStatus
+  // Add more fields as needed
+  user         User          @relation(fields: [userId], references: [id])
+  userId       Int
+  // Relationship: One-to-Many with CardForSale
+  cardsForSale CardForSale[]
+}
+
+model User {
+  // Primary key
+  id Int @id @default(autoincrement())
+
+  // User properties
+  name      String
+  surname   String?
+  telephone String?
+  country   String?
+  username  String   @unique
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+
+  // Additional fields as needed
+  Order       Order[]
+  CardForSale CardForSale[]
+}
+
+enum CardStatus {
+  SELLED
+  SALE
+  PENDING
+}
+
+enum OrderStatus {
+  APPROVED
+  CANCELLED
+  PENDING
+}
+
+enum PokemonCardCondition {
+  MINT
+  NEAR_MINT
+  EXCELLENT
+  LIGHTLY_PLAYED
+  PLAYED
+  HEAVILY_PLAYED
+  DAMAGED
+}

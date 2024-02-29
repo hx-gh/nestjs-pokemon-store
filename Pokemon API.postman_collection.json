@@ -1,0 +1,328 @@
+{
+	"info": {
+		"_postman_id": "7bce1b12-f3ba-4794-895d-7f31de92bfaf",
+		"name": "Pokemon API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "21669122"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Usuario de teste",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "yourusername",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "youremail@mail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": "http://localhost:3000/user/signup"
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "youremail@mail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": "http://localhost:3000/user/signin"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pokemon Reference",
+			"item": [
+				{
+					"name": "List Pokemons",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": {
+								"key": "X-Api-Key",
+								"value": "7151de2f-68d1-4a00-87ac-40071e06cde4"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.pokemontcg.io/v2/cards?q=set.id:sv3pt5 supertype:Pokémon&page=1&orderBy=name&select=name,supertype,hp,types,attacks,weaknesses,abilities,flavorText,nationalPokedexNumbers,images,rarity",
+							"protocol": "https",
+							"host": [
+								"api",
+								"pokemontcg",
+								"io"
+							],
+							"path": [
+								"v2",
+								"cards"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "set.id:sv3pt5 supertype:Pokémon"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "orderBy",
+									"value": "name"
+								},
+								{
+									"key": "select",
+									"value": "name,supertype,hp,types,attacks,weaknesses,abilities,flavorText,nationalPokedexNumbers,images,rarity"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Pokemon Database",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3000/reference-card/update-pokemons"
+					},
+					"response": []
+				},
+				{
+					"name": "List all Pokemons from Database",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3000/reference-card/list-all"
+					},
+					"response": []
+				},
+				{
+					"name": "List One Pokemon from DB",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3000/reference-card/list-one/Zubat"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pokemon Sales",
+			"item": [
+				{
+					"name": "Create Item for Sale",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "price",
+									"value": "1000",
+									"type": "text"
+								},
+								{
+									"key": "condition",
+									"value": "MINT",
+									"type": "text"
+								},
+								{
+									"key": "imageUrl",
+									"value": "https://images.pokemontcg.io/sv3pt5/41_hires.png",
+									"type": "text"
+								},
+								{
+									"key": "referenceCardId",
+									"value": "184",
+									"type": "text"
+								},
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": "localhost:3000/sales/create-sale"
+					},
+					"response": []
+				},
+				{
+					"name": "List All Cards for Sale from User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3000/sales/list-all-user"
+					},
+					"response": []
+				},
+				{
+					"name": "List One Card from Card Name",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Zubat",
+									"type": "text"
+								}
+							]
+						},
+						"url": "localhost:3000/sales/list-one/Zubat"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Create Order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cards\": [\r\n        {\r\n            \"id\": 2\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3000/order/create-order"
+					},
+					"response": []
+				},
+				{
+					"name": "List One",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/order/list-order/?id=1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"order",
+								"list-order",
+								""
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List All From User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/order/list-order/?id=1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"order",
+								"list-order",
+								""
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": {
+			"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiZ3VzdGF2by5vbGl2ZWlyYUBzaWxrZW4uY29tIiwiaWF0IjoxNzA4OTk1MTIzLCJleHAiOjE3MDg5OTYwMjN9.m74KjnindEWT2WDg1PF7nDwDbG2EqPieFkYEu_Wjzoo"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
